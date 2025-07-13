@@ -13,7 +13,7 @@ const snippetSchema = new mongoose.Schema({
     minlength : 3,
     maxlength : 300
   },
- language: {
+ language: { 
   type: String,
   enum: ["plaintext", "javascript", "python", "java", "c++", "html", "css"],
   default: "plaintext"

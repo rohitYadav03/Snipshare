@@ -1,20 +1,21 @@
-const express = require("express");
 const jwt = require("jsonwebtoken");
-require("dotenv").config()
+require("dotenv").config();
 
-const authenticateToken = (req,res, next) => {
-    try {
-        const authCokiee = req.cookies.login;
-    if(!authCokiee){
-        return res.status(400).json({message : "no cokkie found login again"})
+const authenticateToken = (req, res, next) => {
+  try {
+    const authCookie = req.cookies.login;
+
+    if (!authCookie) {
+      return res.status(401).json({ message: "No cookie found. Please login again." });
     }
-    const  validCokkie = jwt.verify(authCokiee, process.env.JWT_SECRET);
-    
-    req.user = validCokkie;
+
+    const validCookie = jwt.verify(authCookie, process.env.JWT_SECRET);
+
+    req.user = validCookie;
     next();
-    } catch (error) {
-        res.status(400).json({message : `ERROR : ${error.message}`})
-    }
-}
+  } catch (error) {
+    res.status(401).json({ message: `Invalid or expired token: ${error.message}` });
+  }
+};
 
-module.exports = {authenticateToken};
+module.exports = { authenticateToken };
