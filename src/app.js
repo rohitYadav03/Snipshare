@@ -9,12 +9,21 @@ require("dotenv").config();
 
 const app = express();
 
-// Proper CORS setup for Netlify + Render + Credentials
+// Safe CORS setup
 const corsOptions = {
   origin: "https://snipshareapp.netlify.app",
   credentials: true,
 };
 app.use(cors(corsOptions));
+
+// Optional: Set headers manually (can be removed if not needed)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://snipshareapp.netlify.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 app.use(express.json());
 app.use(cookieParser());

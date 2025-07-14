@@ -70,12 +70,13 @@ authRouter.post("/login", async (req, res) => {
 
     const expiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
+
     res.cookie("login", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: false, // should be true in production (https)
-      expires: expiryDate,
-    });
+  httpOnly: true,
+  sameSite: "None",
+  secure: true,
+  expires: expiryDate,
+});
 
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
@@ -83,18 +84,18 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-
 authRouter.post("/logout", authenticateToken, (req, res) => {
   try {
     res.clearCookie("login", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: false, // set true in production
+      sameSite: "None",
+      secure: true,
     });
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     res.status(500).json({ message: `ERROR: ${error.message}` });
   }
 });
+
 
 module.exports = { authRouter };
