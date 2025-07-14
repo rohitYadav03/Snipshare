@@ -10,9 +10,10 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors({
-  origin: "http://127.0.0.1:5173", // ✅ NOT '*'
-  credentials: true               // ✅ Required for cookies
+  origin: "https://snipshareapp.netlify.app", 
+  credentials: true                            
 }));
+
 
 
 
@@ -27,7 +28,7 @@ app.use("/snippets", SnippetRouter)
 connectDB()
   .then(() => {
     console.log("Connected to DB");
-    app.listen(process.env.PORT, () => {
+    app.listen(process.env.PORT || 3000, () => {
       console.log(`Running on port ${process.env.PORT}`); 
     });
   })
