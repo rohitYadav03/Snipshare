@@ -15,6 +15,14 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.on("finish", () => {
+    console.log("CORS headers:", res.getHeaders());
+  });
+  next();
+});
 
 
 app.use(express.json());
